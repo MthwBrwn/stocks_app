@@ -1,21 +1,21 @@
-# math_series
+# Stocks App
 
 **Author**: Matthew Brown
 **Version**: 1.0.0
 
 ## Overview
-This application sets up a sequence that gives a Fibonacci number for a input number.
+This application takes an existing code base and performs testing up it
 
 ## Getting Started
-To get started you will need to install pipenv, bring up an active environment with "pipenv shell" and then call this file
+To get started you will need to install dependencies using pipenv install, bring up an active environment with "pipenv shell"
+Flask can be started using flask run.
+The server hosts locally at 127.0.0.1:8000
 
 ## Architecture
-This application is written in Python3.6
+This application is written in Python 3.6. It uses flask as a framework and tests are run
 
 
 
 ## Change Log
 
-10:13 finished with test conditions for fibonacci. starting with lucas feature
-10:39 Lucas feature tests complete and function set up
-11:20 added testing conditions for optional input and had conditions pass
+15:30
