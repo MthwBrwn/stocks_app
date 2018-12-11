@@ -1,4 +1,16 @@
 from .. import app
+import pytest
+from ..models import db
+
+
+@pytest.fixture
+def client():
+
+    def do_nothing():
+        pass
+    db.session.commit = do_nothing
+    yield app.test_client()
+    db.session.rollback()
 
 
 def test_home_route_get():
@@ -34,12 +46,13 @@ def test_search_route_get():
     assert b'<h2>Search for stocks</h2>' in rv.data
 
 
-def test_search_post():
+def test_search_post(client):
+    """ This is another test checking if the response is 200 for the endpoint /search.post.
+    The request has succeeded
     """
-    """
-    rv = app.test_client().post('/search', data = {'symbol' : 'amzn'}, follow_redirects = True)
+    rv = client.post('/search', data={'symbol': 'amzn'}, follow_redirects=True)
     assert rv.status_code == 200
-
+    assert b'<h2>Welcome to the Portfolio</h2>' in rv.data
 
 
 
