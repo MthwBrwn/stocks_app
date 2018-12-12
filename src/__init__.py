@@ -10,6 +10,7 @@ app = Flask(__name__, static_url_path='', static_folder='static', instance_relat
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
+# this sets up the testing environment - True must be the string 'True' not boolean True
 if os.environ.get('TESTING') == 'True':
     DATABASE_URL = os.environ.get('TEST_DATABASE_URL')
 
