@@ -55,5 +55,7 @@ def test_search_post(client):
     assert b'<h2>Welcome to the Portfolio</h2>' in rv.data
 
 
-
+def test_search_post_pre_redirect(client):
+    rv = client.post('/search', data = {'symbol' : 'amzn'})
+    assert rv.status_code == 302
 
