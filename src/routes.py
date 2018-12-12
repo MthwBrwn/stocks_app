@@ -24,8 +24,8 @@ def company_search():
     form = CompanySearchForm()
     if form.validate_on_submit():
         symbol = form.data['symbol']
-        # res = req.get(f'https://api.iextrading.com/1.0/stock/{ request.form.("symbol") }/company')
-
+        # res = req.get(f'https://api.iextrading.com/1.0/stock/{ request.form("symbol")}/company')
+        res = req.get(f'https://api.iextrading.com/1.0/stock/{ form.data["symbol"] }/company')
         try:
             data = json.loads(res.text)
             company = Company(
@@ -51,6 +51,12 @@ def company_search():
             return render_template('portfolio/search.html', form=form)
 
     return render_template('portfolio/search.html', form=form)
+
+
+@app.route('/preview')
+def preview_company():
+    """
+    """
 
 
 @app.route('/portfolio')
