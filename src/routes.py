@@ -1,14 +1,18 @@
-from flask import render_template, abort, redirect, url_for, request
+from . import app
+
+from flask import render_template, abort, redirect, url_for, request, flash
+from sqlalchemy.exc import DBAPIError, IntegrityError
 from json import JSONDecodeError
 from .models import db, Company
+from .forms import CompanySearchForm
 import requests as req
-from . import app
 import json
+import os
 
 
 @app.route('/')
 def home():
-    """
+    """ This is the home page of the stocks app
     """
     return render_template('home.html')
 
@@ -17,8 +21,10 @@ def home():
 def company_search():
     """
     """
-    if request.method == 'POST':
-        res = req.get(f'https://api.iextrading.com/1.0/stock/{ request.form.get("symbol") }/company')
+    form = CompanySearchForm()
+    if form.validate_on_submit():
+        symbol = form.data['symbol']
+        # res = req.get(f'https://api.iextrading.com/1.0/stock/{ request.form.("symbol") }/company')
 
         try:
             data = json.loads(res.text)
@@ -40,10 +46,11 @@ def company_search():
             db.session.commit()
 
             return redirect(url_for('.portfolio_detail'))
-        except JSONDecodeError:
-            abort(404)
+        except (DBAPIError, IntegrityError):
+            flash("You can only add a company to your portfolio once.")
+            return render_template('portfolio/search.html', form=form)
 
-    return render_template('portfolio/search.html')
+    return render_template('portfolio/search.html', form=form)
 
 
 @app.route('/portfolio')
