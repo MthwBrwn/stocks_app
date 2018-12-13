@@ -3,7 +3,11 @@
 {% block content %}
 <div class="container">
   <h2>Welcome to the Portfolio</h2>
-  <p>Currently under construction</p>
+  {% for company in companies %}
+    <div class='company'>
+      <p> company name : {{company.companyName}} </p>
+    </div>
+  {%endfor%}
 </div>
 {% endblock content %}
 
