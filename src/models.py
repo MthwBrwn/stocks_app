@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime as dt
 from flask_migrate import Migrate
 from . import app
+from passlib.hash import sha256_crypt
 
 
 db = SQLAlchemy(app)
@@ -26,3 +27,22 @@ class Company(db.Model):
 
     def __repr__(self):
         return '<Company {}>'.format(self.companyName)
+
+#new class for authenticting
+
+class Company(db.Model):
+    __tablename__ = 'companies'
+
+    id = db.Column(db.Integer, primary_key=True)
+    symbol = db.Column(db.String(64), index=True, unique=True)
+
+    # do things
+ Def __init__(self, email, password):
+    self.mil = mail
+    self.password = sha256_crypt.encrypt(password)
+
+@classmethod
+def check_password_hash(cls, user password):
+    """
+    """
+    if sha256_ rypt.verify(password, user.password):

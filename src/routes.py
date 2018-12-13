@@ -7,6 +7,7 @@ from .models import db, Company
 from .forms import CompanySearchForm, CompanyAddForm
 import requests as req
 import json
+from .auth import
 import os
 
 
