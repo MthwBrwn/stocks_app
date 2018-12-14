@@ -41,35 +41,39 @@ def company_search():
 def portfolio_preview():
     """ This route shows the detail fo the company after the company is selected by User
     """
-    form_context = session['context']
-    form = CompanyAddForm(**form_context)
-    if form.validate_on_submit():
-        form_data = {
-            'symbol': form.data['symbol'],
-            'companyName': form.data['companyName'],
-            'exchange': form.data['exchange'],
-            'industry': form.data['industry'],
-            'website': form.data['website'],
-            'description': form.data['description'],
-            'CEO': form.data['CEO'],
-            'issueType': form.data['issueType'],
-            'sector': form.data['sector'],
-        }
-        try:
-            company = Company(**form_data)
-            # import pdb; pdb.set_trace()
-            db.session.add(company)
+    try:
+        form_context = session['context']
+        form = CompanyAddForm(**form_context)
+        if form.validate_on_submit():
+            form_data = {
+                'symbol': form.data['symbol'],
+                'companyName': form.data['companyName'],
+                'exchange': form.data['exchange'],
+                'industry': form.data['industry'],
+                'website': form.data['website'],
+                'description': form.data['description'],
+                'CEO': form.data['CEO'],
+                'issueType': form.data['issueType'],
+                'sector': form.data['sector'],
+            }
+            try:
+                company = Company(**form_data)
+                # import pdb; pdb.set_trace()
+                db.session.add(company)
 
-            db.session.commit()
+                db.session.commit()
 
-        except (DBAPIError, IntegrityError):
-            flash("You can only add a company to your portfolio once.")
-            return render_template('portfolio/search.html', form=form)
+            except (DBAPIError, IntegrityError):
+                flash("You can only add a company to your portfolio once.")
+                return render_template('portfolio/search.html', form=form)
 
-        return redirect(url_for('.portfolio_detail'))
+            return redirect(url_for('.company_search'))
 
-    return render_template('portfolio/preview.html', form=form)
+        return render_template('portfolio/preview.html', form=form)
 
+    except JSONDecodeError:
+        flash ('That company cannot be located')
+        return redirect(url_for('.company_search'))
 
 @app.route('/portfolio')
 def portfolio_detail():
