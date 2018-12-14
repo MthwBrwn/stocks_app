@@ -27,9 +27,10 @@ def company_search():
         # symbol = form.data['symbol']
         # res = req.get(f'https://api.iextrading.com/1.0/stock/{ request.form("symbol")}/company')
         res = req.get(f'https://api.iextrading.com/1.0/stock/{ form.data["symbol"] }/company')
-        data = json.loads(res.text)
+        # data = (res.text)
+        # data = json.loads(res.text)
         try:
-            session['context'] = data
+            session['context'] = res.text
 
             return redirect(url_for('.portfolio_preview'))
         except JSONDecodeError:
@@ -42,7 +43,7 @@ def portfolio_preview():
     """ This route shows the detail fo the company after the company is selected by User
     """
     try:
-        form_context = (session['context'])
+        form_context = json.loads(session['context'])
         form = CompanyAddForm(**form_context)
         if form.validate_on_submit():
             form_data = {
