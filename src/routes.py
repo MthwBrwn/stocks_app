@@ -42,42 +42,38 @@ def portfolio_preview():
     """ This route shows the detail fo the company after the company is selected by User
     """
     form_context = session['context']
-    # import pdb; pdb.set_trace()
     form = CompanyAddForm(**form_context)
     if form.validate_on_submit():
         form_data = {
             'symbol': form.data['symbol'],
+            'companyName': form.data['companyName'],
+            'exchange': form.data['exchange'],
+            'industry': form.data['industry'],
+            'website': form.data['website'],
+            'description': form.data['description'],
+            'CEO': form.data['CEO'],
+            'issueType': form.data['issueType'],
+            'sector': form.data['sector'],
         }
         try:
-            company = Company(symbol=form.data['symbol'])
+            company = Company(**form_data)
+            # import pdb; pdb.set_trace()
             db.session.add(company)
+
             db.session.commit()
+
         except (DBAPIError, IntegrityError):
             flash("You can only add a company to your portfolio once.")
             return render_template('portfolio/search.html', form=form)
 
         return redirect(url_for('.portfolio_detail'))
-            # data = json.loads(res.text)
-
-
-            # company = Company(
-            #     symbol=data['symbol'],
-            #     companyName=data['companyName'],
-            #     exchange=data['exchange'],
-            #     industry=data['industry'],
-            #     website=data['website'],
-            #     description=data['description'],
-            #     CEO=data['CEO'],
-            #     issueType=data['issueType'],
-            #     sector=data['sector'],
-            # )
 
     return render_template('portfolio/preview.html', form=form)
 
 
 @app.route('/portfolio')
 def portfolio_detail():
-    """
+    """ This routes to the page where the company data is shown
     """
     companies = Company.query.all()
     return render_template('portfolio/portfolio.html', companies=companies)
