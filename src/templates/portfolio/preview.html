@@ -7,7 +7,7 @@
 <form action= "{{ url_for(".portfolio_preview") }}" method="POST">
   {{ form.hidden_tag() }}
   {{form.symbol.label}}  {{form.symbol(size=10)}}
-  <input type="submit" value="Go">
+  <input type="submit" value="If this is your selection, select here">
 </form>
 </div>
 {% endblock  %}
