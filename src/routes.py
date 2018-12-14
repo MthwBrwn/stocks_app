@@ -42,7 +42,7 @@ def portfolio_preview():
     """ This route shows the detail fo the company after the company is selected by User
     """
     try:
-        form_context = session['context']
+        form_context = (session['context'])
         form = CompanyAddForm(**form_context)
         if form.validate_on_submit():
             form_data = {
