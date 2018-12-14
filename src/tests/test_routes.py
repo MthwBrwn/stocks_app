@@ -15,7 +15,7 @@ def client():
 
 def test_home_route_get():
     """ This tests the get request and assert the response code is 200
-    he request has succeeded
+    The request has succeeded
     """
     rv = app.test_client().get('/')
     assert rv.status_code == 200
@@ -31,11 +31,12 @@ def test_home_route_delete():
 
 def test_portfolio_route_get():
     """This checks to see if a request to the endpoint /
-portfolio has response of 200 The request has succeeded
-"""
+    portfolio has response of 200 The request has succeeded
+    """
     rv = app.test_client().get('/portfolio')
     assert rv.status_code == 200
     assert b'<h2>Welcome to the Portfolio</h2>' in rv.data
+
 
 def test_search_route_get():
     """"
@@ -47,15 +48,16 @@ def test_search_route_get():
 
 
 def test_search_post(client):
-    """ This is another test checking if the response is 200 for the endpoint /search.post.
-    The request has succeeded
+    """  test checking if the response is 200 for the endpoint /search.post.
+    This uses the fixture client to check if 2nd time trips the redirect
     """
-    rv = client.post('/search', data={'symbol': 'amzn'}, follow_redirects=True)
+    rv = client.post('/search', data={'symbol': 'amzn'})
     assert rv.status_code == 200
-    assert b'<h2>Welcome to the Portfolio</h2>' in rv.data
 
 
 def test_search_post_pre_redirect(client):
-    rv = client.post('/search', data = {'symbol' : 'amzn'})
+    """This test attempts a company a second time within the fixture and then rolls back the session.
+    """
+    rv = client.post('/search', data={'symbol': 'amzn'})
     assert rv.status_code == 302
 
