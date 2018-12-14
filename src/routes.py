@@ -7,7 +7,7 @@ from .models import db, Company
 from .forms import CompanySearchForm, CompanyAddForm
 import requests as req
 import json
-from .auth import
+# from .auth import
 import os
 
 
@@ -45,6 +45,9 @@ def portfolio_preview():
     # import pdb; pdb.set_trace()
     form = CompanyAddForm(**form_context)
     if form.validate_on_submit():
+        form_data = {
+            'symbol': form.data['symbol'],
+        }
         try:
             company = Company(symbol=form.data['symbol'])
             db.session.add(company)
