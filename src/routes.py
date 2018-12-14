@@ -72,7 +72,7 @@ def portfolio_preview():
         return render_template('portfolio/preview.html', form=form)
 
     except JSONDecodeError:
-        flash ('That company cannot be located')
+        flash('That company cannot be located')
         return redirect(url_for('.company_search'))
 
 @app.route('/portfolio')
