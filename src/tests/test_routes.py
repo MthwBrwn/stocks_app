@@ -5,7 +5,6 @@ from ..models import db
 
 @pytest.fixture
 def client():
-
     def do_nothing():
         pass
     db.session.commit = do_nothing
@@ -54,17 +53,20 @@ def test_search_route_delete():
     assert rv.status_code == 405
 
 
+# def test_search_post_pre_redirect(client):
+#     """This test attempts a company a second time within the fixture and then rolls back the session.
+#     """
+#     rv = client.post('/search', data={'symbol': 'amzn'}, follow_redirects=True)
+#     assert rv.status_code == 302
+
+
 def test_search_post(client):
     """  test checking if the response is 200 for the endpoint /search.post.
     This uses the fixture client to check if 2nd time trips the redirect
     """
-    rv = client.post('/search', data={'symbol': 'amzn'})
+    rv = client.post('/search', data={'symbol': 'amzn'}, follow_redirects=True)
     assert rv.status_code == 200
 
 
-def test_search_post_pre_redirect(client):
-    """This test attempts a company a second time within the fixture and then rolls back the session.
-    """
-    rv = client.post('/search', data={'symbol': 'amzn'})
-    assert rv.status_code == 302
+
 

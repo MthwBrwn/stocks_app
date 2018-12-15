@@ -24,11 +24,7 @@ def company_search():
     """
     form = CompanySearchForm()
     if form.validate_on_submit():
-        # symbol = form.data['symbol']
-        # res = req.get(f'https://api.iextrading.com/1.0/stock/{ request.form("symbol")}/company')
         res = req.get(f'https://api.iextrading.com/1.0/stock/{ form.data["symbol"] }/company')
-        # data = (res.text)
-        # data = json.loads(res.text)
         try:
             session['context'] = res.text
             return redirect(url_for('.portfolio_preview'))
@@ -62,7 +58,7 @@ def portfolio_preview():
                 # import pdb; pdb.set_trace()
                 db.session.commit()
 
-            except (DBAPIError, IntegrityError):
+            except DBAPIError:
 
                 flash("You can only add a company to your portfolio once.")
                 return render_template('portfolio/search.html', form=form)
