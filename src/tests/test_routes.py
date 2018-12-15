@@ -5,7 +5,6 @@ from ..models import db
 
 @pytest.fixture
 def client():
-
     def do_nothing():
         pass
     db.session.commit = do_nothing
@@ -35,7 +34,7 @@ def test_portfolio_route_get():
     """
     rv = app.test_client().get('/portfolio')
     assert rv.status_code == 200
-    assert b'<h2>Welcome to the Portfolio</h2>' in rv.data
+    assert b'<p> under construction </p>' in rv.data
 
 
 def test_search_route_get():
@@ -47,17 +46,27 @@ def test_search_route_get():
     assert b'<h2>Search for stocks</h2>' in rv.data
 
 
+def test_search_route_delete():
+    """ This checks to make sure a request that is not allowed returns a 405 in search
+    """
+    rv = app.test_client().delete('/search')
+    assert rv.status_code == 405
+
+
+# def test_search_post_pre_redirect(client):
+#     """This test attempts a company a second time within the fixture and then rolls back the session.
+#     """
+#     rv = client.post('/search', data={'symbol': 'amzn'}, follow_redirects=True)
+#     assert rv.status_code == 302
+
+
 def test_search_post(client):
     """  test checking if the response is 200 for the endpoint /search.post.
     This uses the fixture client to check if 2nd time trips the redirect
     """
-    rv = client.post('/search', data={'symbol': 'amzn'})
+    rv = client.post('/search', data={'symbol': 'amzn'}, follow_redirects=True)
     assert rv.status_code == 200
 
 
-def test_search_post_pre_redirect(client):
-    """This test attempts a company a second time within the fixture and then rolls back the session.
-    """
-    rv = client.post('/search', data={'symbol': 'amzn'})
-    assert rv.status_code == 302
+
 
