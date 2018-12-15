@@ -38,7 +38,7 @@ def company_search():
     return render_template('portfolio/search.html', form=form)
 
 
-@app.route('/preview', methods=['GET', 'POST'])
+@app.route('/company', methods=['GET', 'POST'])
 def portfolio_preview():
     """ This route shows the detail fo the company after the company is selected by User
     """
@@ -59,9 +59,8 @@ def portfolio_preview():
             }
             try:
                 company = Company(**form_data)
-                # import pdb; pdb.set_trace()
                 db.session.add(company)
-
+                # import pdb; pdb.set_trace()
                 db.session.commit()
 
             except (DBAPIError, IntegrityError):
@@ -70,7 +69,7 @@ def portfolio_preview():
 
             return redirect(url_for('.company_search'))
 
-        return render_template('portfolio/preview.html', form=form)
+        return render_template('portfolio/company.html', form=form)
 
     except JSONDecodeError:
         flash('That company cannot be located')
