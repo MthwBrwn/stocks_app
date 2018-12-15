@@ -1,22 +1,17 @@
- {% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-  <h2>Welcome to the Portfolio</h2>
-  {% for company in companies %}
-    <div class='company'>
-      <p>{{ symbol }}</p>
-      <p>{{ companyName }}</p>
-      <p>{{ exchange }}</p>
-      <p>{{ industry }}</p>
-      <p>a{{ website }}</p>
-      <p>{{ description }}</p>
-      <p>{{ CEO }}</p>
-      <p>{{ issueType }}</p>
-      <p>{{ sector }}</p>
-    </div>
-  {%endfor%}
+
+<div class= "container">
+<p> under construction</p>
+<p> .  </p>
 
 </div>
+
 {% endblock content %}
 
+<!-- <form action= "{{ url_for(".portfolio_preview") }}" method="POST">
+  {{ form.hidden_tag() }}
+  {{form.symbol.label}}  {{form.symbol(size=10)}}
+  <input type="submit" value="If this is your selection, confirm here">
+</form> -->

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+
+    <p>{{ symbol }}</p>
+    <p>{{ companyName }}</p>
+    <p>{{ exchange }}</p>
+    <p>{{ industry }}</p>
+    <p>{{ website }}</p>
+    <p>{{ description }}</p>
+    <p>{{ CEO }}</p>
+    <p>{{ issueType }}</p>
+    <p>{{ sector }}</p>
+
+
+    <div class="company_form">
+      <form action="/company" method="POST">
+        <input type="submit" value="Add to Portfolio">
+        {{ form.data['csrf_token'] }}
+        <div hidden>
+        {{ form.data['symbol'] }}
+        {{ form.data['companyName'] }}
+        <!-- {{ form.exchange.label }} {{ form.exchange(size=20) }}
+        {{ form.industry.label }} {{ form.industry(size=20) }}
+        {{ form.website.label }} {{ form.website(size=20) }}
+        {{ form.description.label }} {{ form.description(size=20) }}
+        {{ form.CEO.label }} {{ form.CEO(size=20) }}
+        {{ form.issueType.label }} {{ form.issueType(size=20) }}
+        {{ form.sector.label }} {{ form.sector(size=20) }}
+        </div> -->
+      </form>
+    </div>
+</div>
+
+
+{% endblock %}
+
