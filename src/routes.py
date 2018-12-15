@@ -31,7 +31,6 @@ def company_search():
         # data = json.loads(res.text)
         try:
             session['context'] = res.text
-
             return redirect(url_for('.portfolio_preview'))
         except JSONDecodeError:
             flash('The company could not be found.')
@@ -64,6 +63,7 @@ def portfolio_preview():
                 db.session.commit()
 
             except (DBAPIError, IntegrityError):
+
                 flash("You can only add a company to your portfolio once.")
                 return render_template('portfolio/search.html', form=form)
 
