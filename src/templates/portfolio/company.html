@@ -3,8 +3,8 @@
 {% block content %}
 <div class="container">
 
-    <p>{{ form.data['symbol'] }}</p>
-    <p>{{ form.data['companyName'] }}</p>
+    <p>Symbol : {{ form.data['symbol'] }}</p>
+    <p> Company: {{ form.data['companyName'] }}</p>
     <!--<p>{{ exchange }}</p>
     <p>{{ industry }}</p>
     <p>{{ website }}</p>
@@ -17,9 +17,8 @@
 
     <div class="company_form">
       <form action="/company" method="POST">
-        <input type="submit" value="Add to Portfolio">
-        <!--{{ form.data['csrf_token'] }} -->
-        <div hidden>
+        {{ form.data['csrf_token'] }}
+        <div class="hidden" hidden >
         {{ form.data['symbol'] }}
         {{ form.data['companyName'] }}
         {{ form.data['exchange'] }}
@@ -30,6 +29,9 @@
         {{ form.data['issueType'] }}
         {{ form.data['sector'] }}
         </div>
+        {{form.portfolios.label}} {{ form.portfolios}}
+
+        <input type="submit" value="Add to Portfolio">
       </form>
     </div>
 </div>

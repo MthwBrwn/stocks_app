@@ -1,10 +1,10 @@
 from . import app
 
 from flask import render_template, abort, redirect, url_for, request, flash, session
-from sqlalchemy.exc import DBAPIError, IntegrityError
-from json import JSONDecodeError
-from .models import db, Company, Portfolio
 from .forms import CompanySearchForm, CompanyAddForm, PortfolioCreateForm
+from sqlalchemy.exc import DBAPIError, IntegrityError
+from .models import db, Company, Portfolio
+from json import JSONDecodeError
 import requests as req
 import json
 # from .auth import

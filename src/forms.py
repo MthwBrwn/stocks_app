@@ -26,9 +26,9 @@ class CompanyAddForm(FlaskForm):
     sector = StringField('sector')
     portfolios = SelectField('portfolios')
 
-    def __init__(self):
-        super().__init__()
-        self.portfolios.choices = [(p.id, p.name) for p in Portfolio.query.all()]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.portfolios.choices = [(str(p.id), p.name) for p in Portfolio.query.all()]
 
 
 class PortfolioCreateForm(FlaskForm):
