@@ -8,7 +8,6 @@ class CompanySearchForm(FlaskForm):
     """This form sets up the ablity for the user to enter the symbol for
     a stock
     """
-
     symbol = StringField('symbol', validators=[DataRequired()])
 
 
@@ -26,8 +25,7 @@ class CompanyAddForm(FlaskForm):
     sector = StringField('sector')
 
 
-# ####new work
-# class AuthForm(FlaskForm):
-# """
-# """
-# email   #finish here
+class PortfolioCreateForm(FlaskForm):
+    """This class creates a new portfolio in which the collection of companies are kept
+    """
+    name = StringField('name', validators=[DataRequired()])

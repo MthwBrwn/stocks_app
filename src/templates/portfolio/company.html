@@ -18,7 +18,7 @@
     <div class="company_form">
       <form action="/company" method="POST">
         <input type="submit" value="Add to Portfolio">
-        {{ form.data['csrf_token'] }}
+        <!--{{ form.data['csrf_token'] }} -->
         <div hidden>
         {{ form.data['symbol'] }}
         {{ form.data['companyName'] }}

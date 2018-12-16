@@ -3,8 +3,8 @@ from . import app
 from flask import render_template, abort, redirect, url_for, request, flash, session
 from sqlalchemy.exc import DBAPIError, IntegrityError
 from json import JSONDecodeError
-from .models import db, Company
-from .forms import CompanySearchForm, CompanyAddForm
+from .models import db, Company, Portfolio
+from .forms import CompanySearchForm, CompanyAddForm, PortfolioCreateForm
 import requests as req
 import json
 # from .auth import
@@ -58,7 +58,7 @@ def portfolio_preview():
                 # import pdb; pdb.set_trace()
                 db.session.commit()
 
-            except DBAPIError:
+            except (IntegrityError, DBAPIError):
 
                 flash("You can only add a company to your portfolio once.")
                 return render_template('portfolio/search.html', form=form)
@@ -71,9 +71,24 @@ def portfolio_preview():
         flash('That company cannot be located')
         return redirect(url_for('.company_search'))
 
-@app.route('/portfolio')
+@app.route('/portfolio', methods=['GET', 'POST'])
 def portfolio_detail():
-    """ This routes to the page where the company data is shown
+    """ This routes to the page where the portfolios of company data is shown
     """
+    form = PortfolioCreateForm()
+
+    if form.validate_on_submit():
+        try:
+                portfolio = Portfolio(name=form.data['name'])
+                db.session.add(portfolio)
+                db.session.commit()
+
+        except (IntegrityError, DBAPIError):
+
+            flash("Something is wrong with your portfolio. Please try again")
+            return render_template('portfolio/portfolio.html', form=form)
+
+        return redirect(url_for('.company_search'))
+
     companies = Company.query.all()
-    return render_template('portfolio/portfolio.html', companies=companies)
+    return render_template('portfolio/portfolio.html', companies=companies, form=form)
