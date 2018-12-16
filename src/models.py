@@ -13,6 +13,7 @@ class Company(db.Model):
     __tablename__ = 'companies'
 
     id = db.Column(db.Integer, primary_key=True)
+    portfolio_id = db.Column(db.ForeignKey('portfolios.id'), nullable=False)
     symbol = db.Column(db.String(64), index=True, unique=True)
     companyName = db.Column(db.String(256), index=True, unique=True)
     exchange = db.Column(db.String(128))
@@ -30,8 +31,8 @@ class Company(db.Model):
 
 
 #new class for authenticting
-# class Company(db.Model):
-#     __tablename__ = 'companies'
+# class Portfolio(db.Model):
+#     __tablename__ = 'portfolio'
 
 #     id = db.Column(db.Integer, primary_key=True)
 #     symbol = db.Column(db.String(64), index=True, unique=True)
