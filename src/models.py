@@ -30,17 +30,28 @@ class Company(db.Model):
         return '<{}  {}>'.format(self. symbol, self.companyName)
 
 
-#new class for authenticting
-# class Portfolio(db.Model):
-#     __tablename__ = 'portfolio'
+class Portfolio(db.Model):
+    __tablename__ = 'portfolios'
 
-#     id = db.Column(db.Integer, primary_key=True)
-#     symbol = db.Column(db.String(64), index=True, unique=True)
+    id = db.Column(db.Integer, primary_key=True)
+    symbol = db.Column(db.String(64), index=True, unique=True)
+    companyName = db.Column(db.String(256), index=True, unique=True)
+    exchange = db.Column(db.String(128))
+    industry = db.Column(db.String(128))
+    website = db.Column(db.String(128))
+    description = db.Column(db.Text)
+    CEO = db.Column(db.String(128))
+    issueType = db.Column(db.String(128))
+    sector = db.Column(db.String(128))
 
-#     # do things
-#     def __init__(self, email, password):
-#         self.email = email
-#         self.password = sha256_crypt.encrypt(password)
+    companies = db.relationship('Company', backref='portfolio')
+
+    date_created = db.Column(db.DateTime, default=dt.now())
+
+    # do things
+    # def __init__(self, email, password):
+    #     self.email = email
+    #     self.password = sha256_crypt.encrypt(password)
 
 # @classmethod
 # def check_password_hash(cls, user password):
