@@ -1,7 +1,8 @@
 
 from flask_wtf import FlaskForm
-from wtforms import StringField
+from wtforms import StringField, SelectField
 from wtforms.validators import DataRequired
+from .models import Portfolio
 
 
 class CompanySearchForm(FlaskForm):
@@ -23,6 +24,11 @@ class CompanyAddForm(FlaskForm):
     CEO = StringField('CEO')
     issueType = StringField('issueType')
     sector = StringField('sector')
+    portfolios = SelectField('portfolios')
+
+    def __init__(self):
+        super().__init__()
+        self.portfolios.choices = [(p.id, p.name) for p in Portfolio.query.all()]
 
 
 class PortfolioCreateForm(FlaskForm):
