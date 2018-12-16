@@ -45,10 +45,12 @@ class Portfolio(db.Model):
     # issueType = db.Column(db.String(128))
     # sector = db.Column(db.String(128))
 
-    companies = db.relationship('Company', backref='portfolio')
+    companies = db.relationship('Company', backref='portfolio', lazy=True)
 
     date_created = db.Column(db.DateTime, default=dt.now())
 
+    def __repr__(self):
+        return '< Portfolio : {} >'.format(self. name)
     # do things
     # def __init__(self, email, password):
     #     self.email = email

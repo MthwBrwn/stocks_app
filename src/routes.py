@@ -10,6 +10,12 @@ import json
 # from .auth import
 import os
 
+@app.add_template_global
+def get_portfolios:
+    """This decorator makes it so that the companies who are required to have a portfolio
+    can locate a portfolio
+    """
+    return Portfolio.query.all()
 
 @app.route('/')
 def home():
