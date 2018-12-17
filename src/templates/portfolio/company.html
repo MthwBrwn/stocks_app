@@ -3,8 +3,8 @@
 {% block content %}
 <div class="container">
 
-    <p>Symbol : {{ form.data['symbol'] }}</p>
     <p> Company: {{ form.data['companyName'] }}</p>
+    <p>Symbol : {{ form.data['symbol'] }}</p>
     <!--<p>{{ exchange }}</p>
     <p>{{ industry }}</p>
     <p>{{ website }}</p>
@@ -16,7 +16,7 @@
 
 
     <div class="company_form">
-      <form action="/company" method="POST">
+      <form action="{{ url_for('portfolio_preview') }}" method="POST">
         {{ form.data['csrf_token'] }}
         <div class="hidden" hidden >
         {{ form.data['symbol'] }}

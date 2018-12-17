@@ -31,13 +31,20 @@ def company_search():
     """In this route the user is taken to the search page where a selection can be made for a company.
     """
     form = CompanySearchForm()
+
     if form.validate_on_submit():
+        symbol = form.data['symbol']
         res = req.get(f'https://api.iextrading.com/1.0/stock/{ form.data["symbol"] }/company')
-        try:
-            session['context'] = res.text
-            return redirect(url_for('.portfolio_preview'))
-        except JSONDecodeError:
-            flash('The company could not be found.')
+        data = json.loads(res.text)
+        session['context'] = data
+        session['symbol'] = symbol
+        # import pdb; pdb.set_trace()
+        # session['portfolio_id'] = form.data['portfolios']
+
+        return redirect(url_for('.portfolio_preview'))
+        # except JSONDecodeError:
+        #     flash('The company could not be found.')
+
     return render_template('portfolio/search.html', form=form)
 
 
@@ -46,21 +53,27 @@ def portfolio_preview():
     """ This route shows the detail fo the company after the company is selected by User
     """
     try:
-        form_context = json.loads(session['context'])
+        form_context = {
+            'symbol': session['symbol'],
+            'companyName': session['context']['companyName'],
+        }
+        # import pdb; pdb.set_trace()
+        # session['symbol'] = symbol
         form = CompanyAddForm(**form_context)
         if form.validate_on_submit():
-            form_data = {
-                'symbol': form.data['symbol'],
-                'companyName': form.data['companyName'],
-                'exchange': form.data['exchange'],
-                'industry': form.data['industry'],
-                'website': form.data['website'],
-                'description': form.data['description'],
-                'CEO': form.data['CEO'],
-                'issueType': form.data['issueType'],
-                'sector': form.data['sector'],
-            }
             try:
+                form_data = {
+                    'symbol': form.data['symbol'],
+                    'companyName': form.data['companyName'],
+                    'exchange': form.data['exchange'],
+                    'industry': form.data['industry'],
+                    'website': form.data['website'],
+                    'description': form.data['description'],
+                    'CEO': form.data['CEO'],
+                    'issueType': form.data['issueType'],
+                    'sector': form.data['sector'],
+                    'portfolio_id': form.data['portfolios']
+                }
                 company = Company(**form_data)
                 db.session.add(company)
                 # import pdb; pdb.set_trace()
@@ -73,8 +86,12 @@ def portfolio_preview():
 
             return redirect(url_for('.company_search'))
 
-        return render_template('portfolio/company.html', form=form)
-
+        return render_template(
+            'portfolio/company.html',
+            form=form,
+            symbol=form_context['symbol']
+            # context_data=session['context']
+        )
     except JSONDecodeError:
         flash('That company cannot be located')
         return redirect(url_for('.company_search'))

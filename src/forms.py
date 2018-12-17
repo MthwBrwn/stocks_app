@@ -6,7 +6,7 @@ from .models import Portfolio
 
 
 class CompanySearchForm(FlaskForm):
-    """This form sets up the ablity for the user to enter the symbol for
+    """This form sets up the ability for the user to enter the symbol for
     a stock
     """
     symbol = StringField('symbol', validators=[DataRequired()])
