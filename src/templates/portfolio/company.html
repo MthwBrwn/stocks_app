@@ -3,32 +3,35 @@
 {% block content %}
 <div class="container">
 
-    <p>{{ symbol }}</p>
-    <p>{{ companyName }}</p>
-    <p>{{ exchange }}</p>
+    <p> Company: {{ form.data['companyName'] }}</p>
+    <p>Symbol : {{ form.data['symbol'] }}</p>
+    <!--<p>{{ exchange }}</p>
     <p>{{ industry }}</p>
     <p>{{ website }}</p>
     <p>{{ description }}</p>
     <p>{{ CEO }}</p>
     <p>{{ issueType }}</p>
     <p>{{ sector }}</p>
+    -->
 
 
     <div class="company_form">
-      <form action="/company" method="POST">
-        <input type="submit" value="Add to Portfolio">
-        {{ form.data['csrf_token'] }}
-        <div hidden>
+      <form action="{{ url_for('portfolio_preview') }}" method="POST">
+        <div class="hidden" hidden >
+        {{ form.hidden_tag() }}
         {{ form.data['symbol'] }}
         {{ form.data['companyName'] }}
-        <!-- {{ form.exchange.label }} {{ form.exchange(size=20) }}
-        {{ form.industry.label }} {{ form.industry(size=20) }}
-        {{ form.website.label }} {{ form.website(size=20) }}
-        {{ form.description.label }} {{ form.description(size=20) }}
-        {{ form.CEO.label }} {{ form.CEO(size=20) }}
-        {{ form.issueType.label }} {{ form.issueType(size=20) }}
-        {{ form.sector.label }} {{ form.sector(size=20) }}
-        </div> -->
+        {{ form.data['exchange'] }}
+        {{ form.data['industry'] }}
+        {{ form.data['website'] }}
+        {{ form.data['description'] }}
+        {{ form.data['CEO'] }}
+        {{ form.data['issueType'] }}
+        {{ form.data['sector'] }}
+        </div>
+        {{form.portfolios.label}} {{ form.portfolios}}
+
+        <input type="submit" value="Add to Portfolio">
       </form>
     </div>
 </div>

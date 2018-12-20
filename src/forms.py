@@ -1,14 +1,14 @@
 
 from flask_wtf import FlaskForm
-from wtforms import StringField
+from wtforms import StringField, SelectField
 from wtforms.validators import DataRequired
+from .models import Portfolio
 
 
 class CompanySearchForm(FlaskForm):
-    """This form sets up the ablity for the user to enter the symbol for
+    """This form sets up the ability for the user to enter the symbol for
     a stock
     """
-
     symbol = StringField('symbol', validators=[DataRequired()])
 
 
@@ -24,10 +24,14 @@ class CompanyAddForm(FlaskForm):
     CEO = StringField('CEO')
     issueType = StringField('issueType')
     sector = StringField('sector')
+    portfolios = SelectField('portfolios')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.portfolios.choices = [(str(p.id), p.name) for p in Portfolio.query.all()]
 
 
-# ####new work
-# class AuthForm(FlaskForm):
-# """
-# """
-# email   #finish here
+class PortfolioCreateForm(FlaskForm):
+    """This class creates a new portfolio in which the collection of companies are kept
+    """
+    name = StringField('name', validators=[DataRequired()])

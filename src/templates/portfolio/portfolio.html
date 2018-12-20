@@ -3,13 +3,29 @@
 {% block content %}
 
 <div class= "container">
-<p> under construction </p>
+  <h2>Welcome to the Portfolio Portal</h2>
+  <div>
+    <h4> Create a new portfolio </h4>
+    <form action="{{ url_for('.portfolio_detail') }}" method="POST">
+      {{ form.hidden_tag() }}
+      {{ form.name.label }} {{ form.name(size=20) }}
+
+      <input type="submit" name="create_portfolio" id="create_portfolio" value =" enter your name ">
+    </form>
+  </div>
+    <!-- need logic here for each company in portfolio
+    {% for company  in companies  %}-->
+      <div>
+      <p> </p>
+      <p> </p>
+
+      <div>
+
+</div>
+{% endfor %}
+
+
 </div>
 
 {% endblock content %}
 
-<!-- <form action= "{{ url_for(".portfolio_preview") }}" method="POST">
-  {{ form.hidden_tag() }}
-  {{form.symbol.label}}  {{form.symbol(size=10)}}
-  <input type="submit" value="If this is your selection, confirm here">
-</form> -->
