@@ -37,7 +37,7 @@ def company_search():
         res = req.get(f'https://api.iextrading.com/1.0/stock/{ form.data["symbol"] }/company')
         data = json.loads(res.text)
         session['context'] = data
-        session['symbol'] = symbol
+        # session['symbol'] = symbol
         # import pdb; pdb.set_trace()
         # session['portfolio_id'] = form.data['portfolios']
 
@@ -54,12 +54,23 @@ def portfolio_preview():
     """
     try:
         form_context = {
-            'symbol': session['symbol'],
+            'symbol': session['context']['symbol'],
             'companyName': session['context']['companyName'],
+            'exchange': session['context']['exchange'],
+            'industry': session['context']['industry'],
+            'website': session['context']['website'],
+            'description': session['context']['description'],
+            'CEO': session['context']['CEO'],
+            'issueType': session['context']['issueType'],
+            'sector': session['context']['sector'],
         }
-        # import pdb; pdb.set_trace()
         # session['symbol'] = symbol
         form = CompanyAddForm(**form_context)
+
+        if len(form.errors.keys()):
+            for error in form.errors:
+                flash(error)
+        # import pdb; pdb.set_trace()
         if form.validate_on_submit():
             try:
                 form_data = {

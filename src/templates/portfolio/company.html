@@ -17,8 +17,8 @@
 
     <div class="company_form">
       <form action="{{ url_for('portfolio_preview') }}" method="POST">
-        {{ form.data['csrf_token'] }}
         <div class="hidden" hidden >
+        {{ form.hidden_tag() }}
         {{ form.data['symbol'] }}
         {{ form.data['companyName'] }}
         {{ form.data['exchange'] }}
