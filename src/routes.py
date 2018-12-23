@@ -128,4 +128,4 @@ def portfolio_detail():
         return redirect(url_for('.company_search'))
 
     companies = Company.query.all()
-    return render_template('portfolio/portfolio.html', companies=companies, form=form)
+    return render_template('portfolio/portfolio.html', teacher='jb', companies=companies, form=form)
