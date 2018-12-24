@@ -13,12 +13,24 @@
       <input type="submit" name="create_portfolio" id="create_portfolio" value =" enter your name ">
     </form>
   </div>
-    <!-- need logic here for each company in portfolio
-    {% for company  in companies  %}-->
+    <!-- need logic here for each company in portfolio -->
+    {% for company  in companies  %}
       <div>
-      <p> </p>
-      <p> </p>
+        <p> -------</p>
+        <p>Symbol: {{company['symbol']}} </p>
+        <p>Company Name: {{company['companyName']}} </p>
+        <p>Exchange: {{company['exchange']}} </p>
+        <p>Industry: {{company['industry']}} </p>
+        <p>Website: {{company['website']}} </p>
+        <p>Description: {{company['description']}} </p>
+        <p>CEO: {{company['CEO']}} </p>
+        <p>Issue Type : {{company['issueType']}} </p>
+        <p>Sector: {{company['sector']}} </p>
 
+        <!-- '
+
+        'portfolio_id': {{company['portfolios']}}
+        ---->
       <div>
 
 </div>

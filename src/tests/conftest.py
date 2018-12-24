@@ -64,7 +64,7 @@ def session(db, request):
 
 @pytest.fixture()
 def company(session):
-    """
+    """creates a fixture for testing a single company
     """
     company = Company(symbol='amzn')
 

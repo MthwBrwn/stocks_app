@@ -33,17 +33,18 @@ def company_search():
     form = CompanySearchForm()
 
     if form.validate_on_submit():
-        symbol = form.data['symbol']
-        res = req.get(f'https://api.iextrading.com/1.0/stock/{ form.data["symbol"] }/company')
-        data = json.loads(res.text)
-        session['context'] = data
-        # session['symbol'] = symbol
-        # import pdb; pdb.set_trace()
-        # session['portfolio_id'] = form.data['portfolios']
+        try:
+            symbol = form.data['symbol']
+            res = req.get(f'https://api.iextrading.com/1.0/stock/{ form.data["symbol"] }/company')
+            data = json.loads(res.text)
+            session['context'] = data
+            # session['symbol'] = symbol
+            # import pdb; pdb.set_trace()
+            # session['portfolio_id'] = form.data['portfolios']
 
-        return redirect(url_for('.portfolio_preview'))
-        # except JSONDecodeError:
-        #     flash('The company could not be found.')
+            return redirect(url_for('.portfolio_preview'))
+        except JSONDecodeError:
+            flash('The company could not be found.')
 
     return render_template('portfolio/search.html', form=form)
 
@@ -95,6 +96,7 @@ def portfolio_preview():
                 flash("You can only add a company to your portfolio once.")
                 return render_template('portfolio/search.html', form=form)
 
+            flash("Company has been added to your portfolio")
             return redirect(url_for('.company_search'))
 
         return render_template(
@@ -122,7 +124,7 @@ def portfolio_detail():
 
         except (IntegrityError, DBAPIError):
 
-            flash("Something is wrong with your portfolio. Please try again")
+            flash("Something is wrong with your portfolio. Please try again", 'error')
             return render_template('portfolio/portfolio.html', form=form)
 
         return redirect(url_for('.company_search'))
