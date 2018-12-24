@@ -39,22 +39,6 @@ def test_home_route_post():
 
 
 def test_search_route_get():
-    """
-    """
-    rv = app.test_client().get('/search')
-    assert rv.status_code == 200
-
-
-def test_portfolio_route_get():
-    """This checks to see if a request to the endpoint /
-    portfolio has response of 200 The request has succeeded
-    """
-    rv = app.test_client().get('/portfolio')
-    assert rv.status_code == 200
-    # assert b'<h2>Welcome to the Portfolio Portal</h2>' in rv.data
-
-
-def test_search_route_get():
     """"
     This is another test checking if the response is 200 for the endpoint /search.  The request has succeeded
     """
@@ -84,4 +68,19 @@ def test_search_post(client):
     rv = client.post('/search', data={'symbol': 'amzn'})
     assert rv.status_code == 200
 
+
+def test_portfolio_route_get():
+    """This checks to see if a request to the endpoint /
+    portfolio has response of 200 The request has succeeded
+    """
+    rv = app.test_client().get('/portfolio')
+    assert rv.status_code == 200
+    assert b'<h2>Welcome to the Portfolio Portal</h2>' in rv.data
+
+
+def test_search_post_wrong(client):
+    """  test response when an unknown company symbol selected
+    """
+    rv = client.post('/search', data={'symbol': 'zzzz'}, follow_redirects=True)
+    assert rv.status_code == 200
 
