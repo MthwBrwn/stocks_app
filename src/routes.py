@@ -32,6 +32,11 @@ def company_search():
     """
     form = CompanySearchForm()
 
+    # import pdb; pdb.set_trace()
+    query = get_portfolios
+    if query:
+        flash('please make a portfolio')
+
     if form.validate_on_submit():
         try:
             symbol = form.data['symbol']
