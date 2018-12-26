@@ -77,7 +77,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user.id
-            return redirect(url_for('portfolio_preview'))
+            return redirect(url_for('portfolio_detail'))
 
         flash(error)
     return render_template('auth/login.html', form=form)
