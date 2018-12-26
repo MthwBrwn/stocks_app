@@ -10,6 +10,8 @@ migrate = Migrate(app, db)
 
 
 class Company(db.Model):
+    """
+    """
     __tablename__ = 'companies'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -31,11 +33,13 @@ class Company(db.Model):
 
 
 class Portfolio(db.Model):
+    """
+    """
     __tablename__ = 'portfolios'
 
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.String(256), index=True)
-
 
     companies = db.relationship('Company', backref='portfolio', lazy=True)
 
@@ -54,7 +58,7 @@ class User(db.Model):
     email = db.Column(db.String(256), index=True, nullable=False, unique=True)
     password = db.Column(db.String(256), nullable=False)
 
-    portfoliios = db.relationship('Portfolio', backref='user', lazy=True)
+    portfolios = db.relationship('Portfolio', backref='user', lazy=True)
 
     def __repr__(self):
         return '< User : {} >'.format(self. email)
@@ -62,7 +66,6 @@ class User(db.Model):
     def __init__(self, email, password):
         self.email = email
         self.password = sha256_crypt.encrypt(password)
-        #come back here
 
     @classmethod
     def check_password_hash(cls, user, password):
