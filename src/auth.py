@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for
+from flask import abort, render_template, flash, redirect, url_for, session, g
 from .forms import AuthForm
 from .models import User, db
 from . import app
@@ -17,26 +17,28 @@ def login_required(view):
 
     return wrapped_view
 
+
 @app.before_request
 def load_logged_in_user():
     """This method is implicitly run before any other request to see if a user_id is available
     """
-    user_id =session.get('user_id')
+    user_id = session.get('user_id')
 
     if user_id is None:
         g.user = None
     else:
         g.user = User.query.get(user_id)
 
+
 @app.route('/register', methods=['GET', 'POST'])
-def login():
-    """
+def register():
+    """ Register handles routing to the register html and posting new registration data
     """
     form = AuthForm()
 
     if form.validate_on_submit():
         email = form.data['email']
-        password = form.data
+        password = form.data['password']
         error = None
 
         if not email or not password:
@@ -58,7 +60,7 @@ def login():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    """
+    """ login handles checking th login logic of the login html page
     """
     form = AuthForm()
 
@@ -81,9 +83,9 @@ def login():
     return render_template('auth/login.html', form=form)
 
 
-@app.route('logout')
+@app.route('/logout')
 def logout():
-    """
+    """ This handles the logic for a user logging out and clears session data
     """
     session.clear()
     flash('You are now logged out.')

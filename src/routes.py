@@ -1,9 +1,10 @@
 from . import app
 
-from flask import render_template, abort, redirect, url_for, request, flash, session
+from flask import render_template, abort, redirect, url_for, request, flash, session, g
 from .forms import CompanySearchForm, CompanyAddForm, PortfolioCreateForm
 from sqlalchemy.exc import DBAPIError, IntegrityError
 from .models import db, Company, Portfolio
+from .auth import login_required
 from json import JSONDecodeError
 import requests as req
 import json
@@ -11,13 +12,12 @@ from .auth import login_required
 import os
 
 
-
 @app.add_template_global
 def get_portfolios():
     """This decorator makes it so that the companies who are required to have a portfolio
     can locate a portfolio
     """
-    return Portfolio.query.all()
+    return Portfolio.query.filter_by(email=g.user['email'])
 
 
 @app.route('/')
@@ -127,7 +127,7 @@ def portfolio_detail():
 
     if form.validate_on_submit():
         try:
-                portfolio = Portfolio(name=form.data['name'])
+                portfolio = Portfolio(name=form.data['name'], user_id=g.user.id)
                 db.session.add(portfolio)
                 db.session.commit()
 
@@ -138,5 +138,9 @@ def portfolio_detail():
 
         return redirect(url_for('.company_search'))
 
-    companies = Company.query.all()
+    user_portfolios = Portfolio.query.filter(Portfolio.user_id == g.user.id)
+    port_ids = [p.id for p in user_portfolios]
+
+    companies = Company.query.filter(Company.portfolio_id.in_(port_ids)).all()
+
     return render_template('portfolio/portfolio.html', companies=companies, form=form)
