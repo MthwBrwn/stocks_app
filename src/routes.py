@@ -7,8 +7,9 @@ from .models import db, Company, Portfolio
 from json import JSONDecodeError
 import requests as req
 import json
-# from .auth import
+from .auth import login_required
 import os
+
 
 
 @app.add_template_global
@@ -27,6 +28,7 @@ def home():
 
 
 @app.route('/search', methods=['GET', 'POST'])
+@login_required
 def company_search():
     """In this route the user is taken to the search page where a selection can be made for a company.
     """

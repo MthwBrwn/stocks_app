@@ -35,3 +35,10 @@ class PortfolioCreateForm(FlaskForm):
     """This class creates a new portfolio in which the collection of companies are kept
     """
     name = StringField('name', validators=[DataRequired()])
+
+
+class AuthForm(FlaskForm):
+    """This is a form designed to take in user name and password
+    """
+    email = StringField('email', validators=[DataRequired()])
+    password = PasswordField('password', validators=[DataRequired()])

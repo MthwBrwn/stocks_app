@@ -66,7 +66,11 @@ class User(db.Model):
 
     @classmethod
     def check_password_hash(cls, user, password):
+        """ This method is created in the user class but does not belong to one specific user
+        so that a password can be checked outside of instantiation
         """
-        """
-        if use is not None
-        if sha256_ rypt.verify(password, user.password):
+        if user is not None
+            if sha256_crypt.verify(password, user.password):
+                return True
+
+        return False
