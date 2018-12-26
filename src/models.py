@@ -48,7 +48,7 @@ class Portfolio(db.Model):
 class User(db.Model):
     """
     """
-     __tablename__ = 'users'
+    __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(256), index=True, nullable=False, unique=True)
@@ -69,7 +69,7 @@ class User(db.Model):
         """ This method is created in the user class but does not belong to one specific user
         so that a password can be checked outside of instantiation
         """
-        if user is not None
+        if user is not None:
             if sha256_crypt.verify(password, user.password):
                 return True
 

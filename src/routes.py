@@ -57,6 +57,7 @@ def company_search():
 
 
 @app.route('/company', methods=['GET', 'POST'])
+@login_required
 def portfolio_preview():
     """ This route shows the detail fo the company after the company is selected by User
     """
@@ -118,6 +119,7 @@ def portfolio_preview():
 
 
 @app.route('/portfolio', methods=['GET', 'POST'])
+@login_required
 def portfolio_detail():
     """ This routes to the page where the portfolios of company data is shown
     """
